@@ -1,0 +1,86 @@
+# =====================================================================
+# FinanzApp — .gitignore
+# Repo PÚBLICO (ADR-004): todo lo que se commitea es público para siempre.
+# Este archivo es la primera barrera; push protection es la segunda.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# 1. Secretos y credenciales
+# ---------------------------------------------------------------------
+# Variables de entorno locales. Se versiona solo la plantilla sin valores.
+.env
+.env.*
+!.env.example
+
+# Llaves y certificados (TLS, SSH, firma)
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Keystores de Java
+*.jks
+*.keystore
+*.truststore
+
+# Secretos de Docker Compose (ejercicio D2.2). Solo se versiona el README.
+# "secrets/*" y no "secrets/": si se ignora la carpeta entera, Git no entra
+# en ella y la excepción "!" nunca se aplica.
+secrets/*
+!secrets/README.md
+
+# Config local de Spring que pueda contener credenciales
+application-local.yml
+application-local.yaml
+application-local.properties
+
+# ---------------------------------------------------------------------
+# 2. Datos financieros reales — NUNCA al repo
+# ---------------------------------------------------------------------
+# Carpeta para exportes del Excel, CSV reales y respaldos de la BD.
+# Se ignora la CARPETA, no extensiones: *.sql bloquearía las migraciones
+# de Flyway y *.csv bloquearía los fixtures sintéticos de los tests.
+data/
+backups/
+*.dump
+*.backup
+
+# ---------------------------------------------------------------------
+# 3. Salidas de build
+# ---------------------------------------------------------------------
+# Maven (backend/)
+target/
+# Maven Wrapper: el .jar se descarga solo; se versionan solo el script y las propiedades
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / Vite (frontend/)
+node_modules/
+dist/
+dist-ssr/
+coverage/
+*.tsbuildinfo
+.vite/
+
+# ---------------------------------------------------------------------
+# 4. Logs y archivos temporales
+# ---------------------------------------------------------------------
+# Los logs pueden contener datos sensibles (ejercicio D3.1)
+*.log
+logs/
+npm-debug.log*
+hs_err_pid*
+replay_pid*
+
+# ---------------------------------------------------------------------
+# 5. IDE y sistema operativo
+# ---------------------------------------------------------------------
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+Thumbs.db
+desktop.ini
+.DS_Store
