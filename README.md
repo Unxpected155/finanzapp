@@ -5,3 +5,11 @@ App web personal (PWA) para manejar presupuesto, gastos, metas y deudas, constru
 > 🚧 En construcción — Fase 0: repositorio y baseline de seguridad.
 
 Stack previsto: Java + Spring Boot, PostgreSQL, React + TypeScript (PWA), Docker.
+
+## Seguridad
+
+¿Encontraste una vulnerabilidad? No abras un issue: sigue [SECURITY.md](SECURITY.md).
+
+## Licencia
+
+[MIT](LICENSE)
