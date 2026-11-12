@@ -1,0 +1,15 @@
+# Dependabot: PRs automáticos para mantener dependencias al día.
+# Se agrega cada ecosistema cuando exista su manifiesto:
+#   maven  → Fase 2 (backend/pom.xml)
+#   npm    → Fase 5 (frontend/package.json)
+#   docker → D4 (Dockerfile)
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Las Actions van fijadas por SHA (obligatorio en el repo);
+    # Dependabot actualiza el SHA y mantiene el tag en el comentario.
+    commit-message:
+      prefix: "ci"

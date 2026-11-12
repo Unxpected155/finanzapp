@@ -1,0 +1,14 @@
+# Finales de línea LF en el repo y en la copia de trabajo.
+# Evita que scripts con CRLF (Windows) se rompan dentro de contenedores Linux.
+* text=auto eol=lf
+
+# Scripts de Windows sí necesitan CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binarios: nunca convertir
+*.png binary
+*.jpg binary
+*.ico binary
+*.jar binary
