@@ -1,0 +1,41 @@
+# Entorno de desarrollo local. El hardening completo de contenedores llega en D7 (Fase 7).
+name: finanzapp
+
+services:
+  db:
+    # Fijada por digest: el tag puede moverse, el digest no (D0). Dependabot lo actualiza.
+    image: postgres:18.7@sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553
+    environment:
+      POSTGRES_DB: finanzapp
+      POSTGRES_USER: postgres
+      # *_FILE: la contraseña se lee de un archivo; no aparece en `docker inspect` (D2.2).
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_superuser_password
+    secrets:
+      - db_superuser_password
+      - db_owner_password
+      - db_app_password
+    volumes:
+      # Postgres 18 guarda los datos en /var/lib/postgresql/18/docker: se monta el padre.
+      - pgdata:/var/lib/postgresql
+      # Crea roles y esquema en el primer arranque (volumen vacío).
+      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
+    ports:
+      # Solo localhost. "5432:5432" escucharía en todas las interfaces (D2.1).
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d finanzapp"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+secrets:
+  db_superuser_password:
+    file: ./secrets/db_superuser_password
+  db_owner_password:
+    file: ./secrets/db_owner_password
+  db_app_password:
+    file: ./secrets/db_app_password
+
+volumes:
+  pgdata:

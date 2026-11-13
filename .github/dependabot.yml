@@ -1,6 +1,5 @@
 # Dependabot: PRs automáticos para mantener dependencias al día.
 # Se agrega cada ecosistema cuando exista su manifiesto:
-#   maven  → Fase 2 (backend/pom.xml)
 #   npm    → Fase 5 (frontend/package.json)
 #   docker → D4 (Dockerfile)
 version: 2
@@ -13,3 +12,18 @@ updates:
     # Dependabot actualiza el SHA y mantiene el tag en el comentario.
     commit-message:
       prefix: "ci"
+
+  - package-ecosystem: maven
+    directory: /backend
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps"
+
+  # Imagen de Postgres fijada por digest en compose.yaml.
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps"
